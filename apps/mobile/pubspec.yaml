@@ -1,0 +1,25 @@
+name: transparencia_sjbv
+description: >-
+  Transparência SJBV — aplicativo cidadão, independente e de código aberto,
+  que reúne os dados do Portal da Transparência de São João da Boa Vista/SP.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  fontes:
+    path: ../../packages/fontes
+  intl: ^0.20.0
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

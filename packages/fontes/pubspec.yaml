@@ -1,0 +1,20 @@
+name: fontes
+description: >-
+  Adaptadores (Dart puro) para as fontes públicas de dados do Portal da
+  Transparência de São João da Boa Vista/SP: SmarAPD PAI (API JSON), site da
+  Prefeitura (HTML) e arquivos legados eCrie.
+version: 0.1.0
+publish_to: none
+repository: https://github.com/NeoFusa/portal-transparencia
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  html: ^0.15.4
+  http: ^1.2.0
+  meta: ^1.15.0
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.25.0

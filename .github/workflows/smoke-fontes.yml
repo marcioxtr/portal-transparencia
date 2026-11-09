@@ -1,0 +1,78 @@
+# Verifica diariamente se as fontes públicas continuam respondendo com o
+# layout esperado. Quando quebrar, abre/atualiza uma issue "fonte-quebrada".
+#
+# É deliberadamente leve: 1 requisição por fonte, User-Agent identificado.
+name: Smoke — fontes em produção
+
+on:
+  schedule:
+    - cron: '17 9 * * *' # 06:17 BRT
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      UA: 'TransparenciaSJBV-smoke/0.1 (+https://github.com/NeoFusa/portal-transparencia)'
+    steps:
+      - name: Site da Prefeitura — /contratos
+        id: contratos
+        run: |
+          html=$(curl -sS -m 40 -A "$UA" https://www.saojoao.sp.gov.br/contratos)
+          echo "$html" | grep -q 'list-item__link' && echo "$html" | grep -q 'nav class="pagination"' \
+            && echo "ok=true" >> "$GITHUB_OUTPUT" || echo "ok=false" >> "$GITHUB_OUTPUT"
+
+      - name: Site da Prefeitura — emendas
+        id: emendas
+        run: |
+          html=$(curl -sS -m 40 -A "$UA" https://www.saojoao.sp.gov.br/transparencia/emendas-parlamentares)
+          echo "$html" | grep -q 'emendas-parlamentares/emenda-n-' \
+            && echo "ok=true" >> "$GITHUB_OUTPUT" || echo "ok=false" >> "$GITHUB_OUTPUT"
+
+      - name: eCrie — árvore de arquivos
+        id: ecrie
+        run: |
+          html=$(curl -sS -m 40 -A "$UA" "https://ecrie.com.br/home/_arq/41/Default.aspx?pasta=transparencia/Balancetes")
+          echo "$html" | grep -q 'tvArquivos' \
+            && echo "ok=true" >> "$GITHUB_OUTPUT" || echo "ok=false" >> "$GITHUB_OUTPUT"
+
+      - name: SmarAPD — SPA no ar
+        id: smarapd
+        run: |
+          html=$(curl -sS -m 40 -A "$UA" https://transparencia-saojoaodaboavista.smarapd.com.br/)
+          echo "$html" | grep -q 'pai-webapp' \
+            && echo "ok=true" >> "$GITHUB_OUTPUT" || echo "ok=false" >> "$GITHUB_OUTPUT"
+
+      - name: Intertec — voltou da manutenção?
+        id: intertec
+        run: |
+          html=$(curl -sS -m 40 -A "$UA" "https://gpmodsaojoaodaboavista.intertecsolucoes.com.br/GPMODSJV/f?p=109:1:::::id_entidade:1" || true)
+          echo "$html" | grep -qi 'Manuten' \
+            && echo "voltou=false" >> "$GITHUB_OUTPUT" || echo "voltou=true" >> "$GITHUB_OUTPUT"
+
+      - name: Abrir issue se algo quebrou
+        if: steps.contratos.outputs.ok != 'true' || steps.emendas.outputs.ok != 'true' || steps.ecrie.outputs.ok != 'true' || steps.smarapd.outputs.ok != 'true' || steps.intertec.outputs.voltou == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const estados = {
+              'Site da Prefeitura /contratos': '${{ steps.contratos.outputs.ok }}',
+              'Site da Prefeitura emendas': '${{ steps.emendas.outputs.ok }}',
+              'eCrie árvore': '${{ steps.ecrie.outputs.ok }}',
+              'SmarAPD SPA': '${{ steps.smarapd.outputs.ok }}',
+            };
+            const voltou = '${{ steps.intertec.outputs.voltou }}' === 'true';
+            const linhas = Object.entries(estados).map(([k, v]) => `- ${v === 'true' ? '✅' : '❌'} ${k}`);
+            if (voltou) linhas.push('- 🎉 Intertec GPMOD parece ter voltado da manutenção — hora de mapear (docs/api/intertec-gpmod.md)');
+            const titulo = 'Smoke diário: alteração nas fontes em produção';
+            const corpo = `Execução: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\n${linhas.join('\n')}`;
+            const { data: abertas } = await github.rest.issues.listForRepo({ ...context.repo, state: 'open', labels: 'fonte-quebrada' });
+            if (abertas.length) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: abertas[0].number, body: corpo });
+            } else {
+              await github.rest.issues.create({ ...context.repo, title: titulo, body: corpo, labels: ['fonte-quebrada'] });
+            }
