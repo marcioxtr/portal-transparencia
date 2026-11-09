@@ -51,7 +51,8 @@ cd apps/mobile && flutter pub get && flutter run
 2. [Fontes de dados](docs/02-fontes-de-dados.md) — o mapa dos cinco sistemas
 3. [Arquitetura](docs/03-arquitetura.md) — Flutter sem backend, adaptadores por fonte, config remota
 4. [Roadmap](docs/04-roadmap.md)
-5. APIs: [SmarAPD](docs/api/smarapd-pai.md) · [Site/eCrie](docs/api/site-prefeitura.md) · [Intertec](docs/api/intertec-gpmod.md)
+5. [Mapa do site da Prefeitura](docs/05-mapa-site-prefeitura.md) · [Inventário completo (901 páginas) e backlog de 23 features](docs/06-inventario-site-e-features.md)
+6. APIs: [SmarAPD](docs/api/smarapd-pai.md) · [Site/eCrie](docs/api/site-prefeitura.md) · [Intertec](docs/api/intertec-gpmod.md)
 
 ## Como ajudar
 

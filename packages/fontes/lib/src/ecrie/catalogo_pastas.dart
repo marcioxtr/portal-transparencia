@@ -189,4 +189,42 @@ const pastasLegado = <PastaLegado>[
     paginaSite:
         '/transparencia/contas-publicas/transferencias-de-recursos-da-uniao',
   ),
+  // Descobertas no crawl completo de 2026-11-09 (docs/06-inventario-site-e-features.md)
+  PastaLegado(
+    id: 'quadro-pessoal',
+    titulo: 'Quadro de Pessoal',
+    pasta: 'rh/Despesas Mensal Com Funcionarios/Quadro de Pessoal',
+    categoria: 'Pessoal',
+    paginaSite: '/transparencia/quadro-de-pessoal',
+  ),
+  PastaLegado(
+    id: 'concursos',
+    titulo: 'Concursos Públicos',
+    pasta: 'rh/Concursos',
+    categoria: 'Pessoal',
+    paginaSite: '/transparencia/concursos-publicos',
+  ),
+  PastaLegado(
+    id: 'jornal-oficial',
+    titulo: 'Jornal Oficial do Município',
+    pasta: 'imprensa/jornaloficial',
+    categoria: 'Publicações oficiais',
+    paginaSite: '/jornal-oficial',
+  ),
+  PastaLegado(
+    id: 'escala-saude',
+    titulo: 'Escala de trabalho da Saúde',
+    pasta: 'escala_saude',
+    categoria: 'Saúde e Assistência',
+    paginaSite:
+        '/departamentos/saude/escala-de-trabalho-do-departamento-de-saude',
+  ),
+  PastaLegado(
+    id: 'vigilancia-socioassistencial',
+    titulo: 'Vigilância Socioassistencial',
+    pasta: 'vigilancia',
+    categoria: 'Saúde e Assistência',
+    paginaSite:
+        '/departamentos/assistencia-social/vigilancia-socioassistencial',
+  ),
 ];

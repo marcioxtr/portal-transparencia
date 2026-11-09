@@ -60,9 +60,9 @@ void main() {
     expect(nomes.first, '2013 01 Servidores.pdf');
   });
 
-  test('catálogo tem 22 pastas com ids únicos', () {
-    expect(pastasLegado, hasLength(22));
-    expect(pastasLegado.map((p) => p.id).toSet(), hasLength(22));
+  test('catálogo tem 27 pastas com ids únicos', () {
+    expect(pastasLegado, hasLength(27));
+    expect(pastasLegado.map((p) => p.id).toSet(), hasLength(27));
   });
 
   test('FonteEcrie monta a URL da pasta com encoding correto', () {
