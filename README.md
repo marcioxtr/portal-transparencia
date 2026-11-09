@@ -10,7 +10,13 @@ O cidadão que quer saber "quanto a prefeitura gastou com X" precisa descobrir e
 
 ## Status
 
-**Fase 0 — Fundação.** Fontes mapeadas, arquitetura definida, código ainda não iniciado. Veja o [roadmap](docs/04-roadmap.md).
+**Fase 1 — MVP em andamento.** App navegável (Android + iOS) consumindo contratos, emendas e documentos históricos com dados reais; receitas/despesas aguardam o portal SmarAPD voltar ao ar. Veja o [roadmap](docs/04-roadmap.md).
+
+<p align="center">
+  <img src="docs/screenshots/android-inicio-2026-11-09.png" width="260" alt="Início no Android">
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/ios-inicio-2026-11-09.png" width="260" alt="Início no iOS">
+</p>
 
 | Fonte | Período | Tecnologia | Mapeamento |
 |---|---|---|---|
