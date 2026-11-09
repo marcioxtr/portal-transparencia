@@ -209,4 +209,4 @@ e cole o resultado em `docs/api/samples/MenuPortal.json`.
 
 - A API é pública e serve dados abertos por força da LAI (Lei 12.527/2011) e da LC 131/2009, mas **não é documentada nem oferece SLA**. O app deve cachear agressivamente e degradar com elegância.
 - Não enviar `POST Estatistica` (telemetria do portal oficial).
-- Identificar o app no `User-Agent` (ex.: `TransparenciaSJBV/1.0 (+https://github.com/NeoFusa/portal-transparencia)`).
+- Identificar o app no `User-Agent` (ex.: `TransparenciaSJBV/1.0 (+https://github.com/marcioxtr/portal-transparencia)`).

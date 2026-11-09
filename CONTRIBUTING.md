@@ -12,7 +12,7 @@ Obrigado pelo interesse! Este é um projeto cidadão, de código aberto, para to
 
 ```bash
 # Flutter stable (ver versão em .fvmrc / pubspec.yaml)
-git clone https://github.com/NeoFusa/portal-transparencia.git
+git clone https://github.com/marcioxtr/portal-transparencia.git
 cd portal-transparencia
 flutter pub get
 cd packages/fontes && dart pub get && dart test

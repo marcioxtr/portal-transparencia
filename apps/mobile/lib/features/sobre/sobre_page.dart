@@ -7,7 +7,7 @@ class SobrePage extends StatelessWidget {
   const SobrePage({super.key});
 
   static final _repo =
-      Uri.parse('https://github.com/NeoFusa/portal-transparencia');
+      Uri.parse('https://github.com/marcioxtr/portal-transparencia');
   static final _portal = Uri.parse('https://www.saojoao.sp.gov.br/transparencia');
   static final _lai = Uri.parse(
       'https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm');

@@ -17,7 +17,7 @@ jobs:
   smoke:
     runs-on: ubuntu-latest
     env:
-      UA: 'TransparenciaSJBV-smoke/0.1 (+https://github.com/NeoFusa/portal-transparencia)'
+      UA: 'TransparenciaSJBV-smoke/0.1 (+https://github.com/marcioxtr/portal-transparencia)'
     steps:
       - name: Site da Prefeitura — /contratos
         id: contratos

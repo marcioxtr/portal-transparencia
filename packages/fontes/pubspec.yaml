@@ -5,7 +5,7 @@ description: >-
   Prefeitura (HTML) e arquivos legados eCrie.
 version: 0.1.0
 publish_to: none
-repository: https://github.com/NeoFusa/portal-transparencia
+repository: https://github.com/marcioxtr/portal-transparencia
 
 environment:
   sdk: ^3.5.0
