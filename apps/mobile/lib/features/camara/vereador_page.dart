@@ -175,11 +175,12 @@ class _Mandato extends StatelessWidget {
       cor: atual ? Cores.primaria : null,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          Text('Mandato $inicio–$fim', style: tt.titleLarge),
+          Expanded(
+            child: Text('Mandato $inicio–$fim', style: tt.titleLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
+          ),
           const SizedBox(width: 8),
           if (atual) Text('atual', style: tt.labelMedium?.copyWith(color: Cores.verde, fontWeight: FontWeight.w700)),
-          const Spacer(),
-          if (!m.bool_('titular')) Text('suplente', style: tt.labelSmall),
+          if (!m.bool_('titular')) Text(' · suplente', style: tt.labelSmall),
           if (m.bool_('afastado')) Text(' · afastado', style: tt.labelSmall?.copyWith(color: Cores.laranja)),
         ]),
         const SizedBox(height: 12),

@@ -30,6 +30,8 @@ void main() {
     Rotas.inicio: 'Entrou',
     Rotas.obras: 'Obras',
     Rotas.camara: 'Vereadores',
+    '/camara/vereador/46': 'Alexandre',
+    '/obras/ampliacao-do-complexo-de-lazer-e-convivencia-no-parque-dos-resedas': 'Ampliação',
     Rotas.pessoal: 'Quanto ganham',
     Rotas.mapaSite: 'site oficial',
     Rotas.comparar: 'Comparar',

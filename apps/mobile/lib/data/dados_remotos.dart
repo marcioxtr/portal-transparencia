@@ -45,8 +45,9 @@ DateTime? geradoEm(Map<String, dynamic> j) => DateTime.tryParse(j['geradoEm'] as
 // ── helpers de leitura tolerante ───────────────────────────────────────────
 
 extension LeituraJson on Map<String, dynamic> {
-  String str(String k, [String padrao = '']) => (this[k] as String?) ?? padrao;
-  String? strOuNulo(String k) => this[k] as String?;
+  // Tolerante a números no lugar de texto (ex.: `numero: 12` vindo do SAPL).
+  String str(String k, [String padrao = '']) => this[k]?.toString() ?? padrao;
+  String? strOuNulo(String k) => this[k]?.toString();
   double num_(String k, [double padrao = 0]) => (this[k] as num?)?.toDouble() ?? padrao;
   double? numOuNulo(String k) => (this[k] as num?)?.toDouble();
   int int_(String k, [int padrao = 0]) => (this[k] as num?)?.toInt() ?? padrao;
