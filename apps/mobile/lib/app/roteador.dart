@@ -3,6 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/busca/busca_page.dart';
+import '../features/camara/camara_page.dart';
+import '../features/camara/vereador_page.dart';
+import '../features/mapa_site/mapa_site_page.dart';
+import '../features/pessoal/pessoal_page.dart';
 import '../features/cidade/avisos_page.dart';
 import '../features/cidade/cidade_page.dart';
 import '../features/cidade/conselhos_page.dart';
@@ -64,6 +68,10 @@ abstract final class Rotas {
   static const indicadores = '/indicadores';
   static const mudancas = '/mudancas';
   static const vizinhos = '/vizinhos';
+
+  // Pessoal e salários (dados/pessoal.json) · Mapa do site (dados/mapa_site.json)
+  static const pessoal = '/pessoal';
+  static const mapaSite = '/mapa-do-site';
 }
 
 /// Transição suave (fade + leve deslize) para páginas fora das abas.
@@ -154,6 +162,18 @@ final roteadorProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+      GoRoute(
+        path: Rotas.camara,
+        pageBuilder: (_, s) => _suave(s, const FundoVidro(child: CamaraPage())),
+        routes: [
+          GoRoute(
+            path: 'vereador/:id',
+            pageBuilder: (_, s) => _suave(s, FundoVidro(child: VereadorPage(id: int.parse(s.pathParameters['id']!)))),
+          ),
+        ],
+      ),
+      GoRoute(path: Rotas.pessoal, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: PessoalPage()))),
+      GoRoute(path: Rotas.mapaSite, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: MapaSitePage()))),
       GoRoute(path: Rotas.cidade, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: CidadePage()))),
       GoRoute(path: Rotas.avisos, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: AvisosPage()))),
       GoRoute(

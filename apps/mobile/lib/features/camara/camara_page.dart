@@ -178,8 +178,13 @@ class _VereadoresState extends State<_Vereadores> {
                     Text(v.str('nome'), style: tt.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
                     Row(children: [
                       if (v.strOuNulo('partido') != null)
-                        Text(v.str('partido'), style: tt.labelMedium?.copyWith(color: Cores.primaria, fontWeight: FontWeight.w700)),
-                      const Spacer(),
+                        Flexible(
+                          child: Text(v.str('partido'),
+                              style: tt.labelMedium?.copyWith(color: Cores.primaria, fontWeight: FontWeight.w700),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                      const SizedBox(width: 6),
                       Text('${propostas(v)} prop.', style: tt.labelSmall),
                     ]),
                     if (afastado || suplente)

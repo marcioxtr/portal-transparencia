@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/services.dart' show MethodChannel;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:transparencia_sjbv/app/app.dart';
 import 'package:transparencia_sjbv/app/roteador.dart';
@@ -14,10 +15,23 @@ import 'package:transparencia_sjbv/app/roteador.dart';
 void main() {
   setUpAll(() => initializeDateFormatting('pt_BR'));
 
+  // flutter_map guarda tiles em cache via path_provider, que não existe no
+  // ambiente de teste; respondemos com um diretório temporário.
+  setUp(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (call) async => '/tmp/to_de_olho_test_cache',
+    );
+  });
+
   // rota → texto que precisa aparecer
   const telas = <String, String>{
     Rotas.inicio: 'Entrou',
     Rotas.obras: 'Obras',
+    Rotas.camara: 'Vereadores',
+    Rotas.pessoal: 'Quanto ganham',
+    Rotas.mapaSite: 'site oficial',
     Rotas.comparar: 'Comparar',
     Rotas.indicadores: 'Três regras',
     Rotas.mudancas: 'mudou',
@@ -46,7 +60,7 @@ void main() {
       // Pré-carrega os JSONs embarcados com I/O real; a partir daí o
       // rootBundle serve do cache e o provider resolve dentro dos pumps.
       await tester.runAsync(() async {
-        for (final n in ['2026', '2025', 'obras', 'camara', 'avisos', 'noticias', 'licitacoes', 'servicos', 'indicadores', 'mapa_site']) {
+        for (final n in ['2026', '2025', 'obras', 'camara', 'avisos', 'noticias', 'licitacoes', 'servicos', 'indicadores', 'mapa_site', 'pessoal']) {
           try {
             await rootBundle.loadString('assets/dados/$n.json');
           } on Object catch (_) {}

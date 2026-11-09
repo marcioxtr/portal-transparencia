@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 /// User-Agent padrão do projeto. Identificar-se é parte do uso responsável
 /// das fontes públicas (ver CONTRIBUTING.md).
 const userAgentPadrao =
-    'ToDeOlho/0.1 (+https://github.com/marcioxtr/portal-transparencia)';
+    'Mozilla/5.0 (compatible; ToDeOlho/0.1; +https://github.com/marcioxtr/portal-transparencia)';
 
 /// Cliente HTTP compartilhado por todas as fontes.
 ///
