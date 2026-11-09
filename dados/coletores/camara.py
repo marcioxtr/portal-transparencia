@@ -1,3 +1,4 @@
+import json
 """Câmara Municipal — vereadores, mandatos, sessões, matérias, votos nominais e
 leis, via API REST aberta do SAPL (sapl.saojoaodaboavista.sp.leg.br/api).
 
@@ -47,6 +48,11 @@ def _legislatura_de(data_iso, legislaturas):
         if l['inicio'] <= data_iso <= l['fim']:
             return l['id']
     return None
+
+
+def https_sapl(obj):
+    """O SAPL devolve URLs http://; o Android bloqueia conteúdo não-HTTPS (fotos, PDFs)."""
+    return json.loads(json.dumps(obj, ensure_ascii=False).replace('http://sapl.', 'https://sapl.'))
 
 
 def coletar():
@@ -250,7 +256,7 @@ def coletar():
         avisos.append('Nomes dos prefeitos indisponíveis: a API do TSE (DivulgaCandContas) recusa acesso automatizado (HTTP 403). '
                       'Períodos de gestão vêm das legislaturas do SAPL; o nome fica em branco em vez de ser digitado à mão.')
 
-    return {
+    return https_sapl({
         'fonte': {'sapl': SAPL, 'camara': URL_CAMARA},
         'legislaturas': legislaturas,
         'vereadores': vereadores,
@@ -263,7 +269,7 @@ def coletar():
         'metadados': {'materias': len(materias), 'votacoes': len(votacoes), 'votosNominais': sum(voto_valores.values()),
                       'votoValores': dict(voto_valores), 'normas': len(normas), 'sessoes': len(sessoes_raw)},
         'avisos': avisos,
-    }
+    })
 
 
 def _prefeitos_tse():

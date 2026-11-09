@@ -225,8 +225,7 @@ class FotoVereador extends StatelessWidget {
     );
     final img = url == null
         ? fallback
-        : Image.network(
-            url!,
+        : Image.network(url!.replaceFirst('http://', 'https://'),
             fit: BoxFit.cover,
             errorBuilder: (_, __, ___) => fallback,
             loadingBuilder: (_, child, p) => p == null ? child : fallback,
