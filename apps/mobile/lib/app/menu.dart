@@ -38,8 +38,8 @@ class MenuLateral extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text('Transparência SJBV', style: tt.titleLarge),
-                    Text('app cidadão · código aberto', style: tt.bodySmall),
+                    Text('Tô de Olho', style: tt.titleLarge),
+                    Text('Transparência na palma da mão', style: tt.bodySmall),
                   ]),
                 ),
               ]),

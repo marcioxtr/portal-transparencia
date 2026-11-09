@@ -1,6 +1,6 @@
-# Transparência SJBV — app cidadão
+# Tô de Olho — transparência na palma da mão
 
-> Aplicativo **independente e de código aberto** (Android + iOS, Flutter) que reúne em uma interface simples tudo o que o Portal da Transparência da Prefeitura de São João da Boa Vista/SP publica — hoje espalhado em cinco sistemas de três fornecedores.
+> App cidadão **independente e de código aberto** (Android + iOS, Flutter) que reúne em uma interface simples tudo o que o Portal da Transparência da Prefeitura de São João da Boa Vista/SP publica — hoje espalhado em cinco sistemas de três fornecedores.
 >
 > ⚠️ Este app **não é da Prefeitura**. Todos os dados vêm das fontes oficiais públicas e exibem data/hora de obtenção e link para a origem.
 

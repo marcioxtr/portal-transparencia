@@ -51,7 +51,7 @@ class _VizinhosPageState extends ConsumerState<VizinhosPage> {
               const SizedBox(height: 12),
               Aparecer(
                 indice: 1,
-                child: Row(children: [
+                child: Wrap(spacing: 8, runSpacing: 8,children: [
                   PilulaVidro(
                     rotulo: 'Gasto (pago)',
                     icone: Icons.north_east_rounded,

@@ -12,7 +12,7 @@ class TransparenciaApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final roteador = ref.watch(roteadorProvider);
     return MaterialApp.router(
-      title: 'Transparência SJBV',
+      title: 'Tô de Olho',
       debugShowCheckedModeBanner: false,
       theme: temaClaro(),
       darkTheme: temaEscuro(),

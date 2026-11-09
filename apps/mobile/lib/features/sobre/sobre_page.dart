@@ -22,9 +22,9 @@ class SobrePage extends StatelessWidget {
         children: [
           Center(child: SvgPicture.asset('assets/logo/logo.svg', height: 120)),
           const SizedBox(height: 16),
-          Text('Transparência SJBV',
+          Text('Tô de Olho',
               textAlign: TextAlign.center, style: tt.headlineSmall),
-          Text('App cidadão, independente e de código aberto',
+          Text('Transparência na palma da mão · app cidadão, independente e de código aberto',
               textAlign: TextAlign.center, style: tt.bodyMedium),
           const SizedBox(height: 24),
           const Aviso(

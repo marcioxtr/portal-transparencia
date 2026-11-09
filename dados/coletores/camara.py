@@ -86,17 +86,18 @@ def coletar():
         for m in sapl_todos('materia/materialegislativa', {'ano': ano, 'ordering': 'id'}):
             materias[m['id']] = m
     log(f'materias={len(materias)}')
+    # Autoria: o próprio objeto da matéria traz `autores` (ids de base/autor) —
+    # completo e sem paginar os 28 mil registros de materia/autoria.
     autoria = defaultdict(list)  # materia → [parlamentar_id]
     autoria_nomes = defaultdict(list)  # materia → [nome do autor (inclui comissões/Executivo)]
-    for a in sapl_todos('materia/autoria', {'ordering': 'id'}):
-        if a['materia'] not in materias:
-            continue
-        pid = autores.get(a['autor'])
-        if pid:
-            autoria[a['materia']].append(pid)
-        nome = autor_nome.get(a['autor'])
-        if nome:
-            autoria_nomes[a['materia']].append(nome)
+    for mid, m in materias.items():
+        for aid in m.get('autores') or []:
+            pid = autores.get(aid)
+            if pid:
+                autoria[mid].append(pid)
+            nome = autor_nome.get(aid)
+            if nome:
+                autoria_nomes[mid].append(nome)
 
     # ── sessões, presenças, votações, votos ─────────────────────────────────
     sessoes_raw = {s['id']: s for s in sapl_todos('sessao/sessaoplenaria', {'ordering': 'id'}) if s['legislatura'] in leg_ids}

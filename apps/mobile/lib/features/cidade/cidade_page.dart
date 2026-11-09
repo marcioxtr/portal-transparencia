@@ -90,7 +90,7 @@ class _Atalhos extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
-      childAspectRatio: 1.55,
+      childAspectRatio: 1.25,
       children: [
         for (final (titulo, sub, icone, cor, rota) in itens)
           CartaoVidro(

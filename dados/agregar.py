@@ -29,6 +29,8 @@ UA = 'TransparenciaSJBV-agregador/0.1 (+https://github.com/marcioxtr/portal-tran
 TCE = 'https://transparencia.tce.sp.gov.br/api/json'
 SICONFI = 'https://apidatalake.tesouro.gov.br/ords/siconfi/tt'
 TOP_N = 40
+# Fornecedores que representam folha de pagamento e encargos (não são empresas).
+FOLHA_RE = re.compile(r'FOLHA|VENCIMENTO|SAL[ÁA]RIO|INSS|INSTITUTO NACIONAL DO SEGURO|PREVID[ÊE]NCIA|IPSJBV|INST.*PREV|FGTS|PASEP|SERVIDORES|VEREADORES|SUBS[ÍI]DIO', re.I)
 
 FUNCOES = {
     '01': 'Legislativa', '02': 'Judiciária', '03': 'Essencial à Justiça', '04': 'Administração',
@@ -101,6 +103,8 @@ def agregar_tce(ano):
     forn_emp, forn_pago, forn_id = defaultdict(float), defaultdict(float), {}
     forn_orgao = defaultdict(lambda: defaultdict(float))  # fornecedor → órgão → empenhado
     orgao_emp = defaultdict(float)
+    orgao_forn = defaultdict(lambda: defaultdict(float))   # órgão → fornecedor → empenhado
+    orgao_folha_mes = defaultdict(lambda: defaultdict(float))  # órgão → mês → empenhado em folha/encargos
     cat_total, alinea_total = defaultdict(float), defaultdict(float)
     meses_ok = []
 
@@ -123,6 +127,9 @@ def agregar_tce(ano):
                 orgao_emp[x.get('orgao', '')] += v
                 forn_orgao[nome][x.get('orgao', '')] += v
                 forn_id.setdefault(nome, x.get('id_fornecedor', ''))
+                orgao_forn[x.get('orgao', '')][nome] += v
+                if FOLHA_RE.search(nome):
+                    orgao_folha_mes[x.get('orgao', '')][mes] += v
             elif ev == 'Valor Liquidado':
                 tot['liquidado'] += v
             elif ev == 'Valor Pago':
@@ -166,6 +173,13 @@ def agregar_tce(ano):
             'total': {k: round(sum(m.get(k, 0) for m in desp_mes), 2) for k in ('empenhado', 'liquidado', 'pago', 'anulado')},
             'topFornecedores': fornecedores,
             'porOrgao': [{'orgao': o, 'empenhado': round(v, 2)} for o, v in sorted(orgao_emp.items(), key=lambda kv: kv[1], reverse=True)],
+            # Para dados/coletores/pessoal.py: quem recebe de cada órgão e quanto é folha.
+            'porOrgaoFornecedor': {
+                o: [{'nome': n, 'id': forn_id.get(n, ''), 'empenhado': round(v, 2), 'folha': bool(FOLHA_RE.search(n))}
+                    for n, v in sorted(fs.items(), key=lambda kv: kv[1], reverse=True)[:15]]
+                for o, fs in orgao_forn.items()
+            },
+            'folhaPorOrgaoMes': {o: {str(m): round(v, 2) for m, v in sorted(ms.items())} for o, ms in orgao_folha_mes.items()},
         },
         'receitas': {
             'porMes': rec_mes,

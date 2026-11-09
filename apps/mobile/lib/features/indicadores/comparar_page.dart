@@ -37,7 +37,7 @@ class _CompararPageState extends ConsumerState<CompararPage> {
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
             children: [
               Aparecer(
-                child: Row(
+                child: Wrap(spacing: 8, runSpacing: 8,
                   children: [
                     PilulaVidro(
                       rotulo: 'Por ano',
@@ -300,12 +300,22 @@ class _LinhaAno extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text('${a.int_('ano')}${a.bool_('parcial') ? ' (até mês ${a.int_('meses')})' : ''}', style: tt.titleMedium),
-                const Spacer(),
+                Expanded(
+                  child: Text(
+                    '${a.int_('ano')}${a.bool_('parcial') ? ' (até mês ${a.int_('meses')})' : ''}',
+                    style: tt.titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
                 if (varRec != null && !a.bool_('parcial'))
-                  Text(
-                    '${varRec >= 0 ? '+' : ''}${varRec.toStringAsFixed(1)}% receita',
-                    style: tt.labelMedium?.copyWith(color: varRec >= 0 ? Cores.receita : Cores.despesa),
+                  Flexible(
+                    child: Text(
+                      '${varRec >= 0 ? '+' : ''}${varRec.toStringAsFixed(1)}% receita',
+                      style: tt.labelMedium?.copyWith(color: varRec >= 0 ? Cores.receita : Cores.despesa),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 const Icon(Icons.chevron_right, size: 18),
               ],
@@ -388,6 +398,6 @@ class _Legenda extends StatelessWidget {
   Widget build(BuildContext context) => Row(mainAxisSize: MainAxisSize.min, children: [
         Container(width: 10, height: 10, decoration: BoxDecoration(color: cor, shape: BoxShape.circle)),
         const SizedBox(width: 6),
-        Text(texto, style: Theme.of(context).textTheme.labelMedium),
+        Flexible(child: Text(texto, style: Theme.of(context).textTheme.labelMedium, softWrap: true)),
       ]);
 }

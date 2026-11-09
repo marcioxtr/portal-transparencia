@@ -87,9 +87,12 @@ CustomTransitionPage<void> _suave(GoRouterState s, Widget child) => CustomTransi
 /// (`--dart-define=ROTA_INICIAL=/obras`) — usado em testes de tela e capturas.
 const _rotaInicial = String.fromEnvironment('ROTA_INICIAL', defaultValue: Rotas.inicio);
 
+/// Rota inicial do app. Testes sobrescrevem com `rotaInicialProvider.overrideWithValue`.
+final rotaInicialProvider = Provider<String>((_) => _rotaInicial);
+
 final roteadorProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: _rotaInicial,
+    initialLocation: ref.watch(rotaInicialProvider),
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => Casca(shell: shell),

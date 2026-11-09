@@ -1,7 +1,7 @@
 name: transparencia_sjbv
 description: >-
-  Transparência SJBV — aplicativo cidadão, independente e de código aberto,
-  que reúne os dados do Portal da Transparência de São João da Boa Vista/SP.
+  Tô de Olho — transparência na palma da mão. App cidadão, independente e de
+  código aberto com os dados públicos de São João da Boa Vista/SP.
 publish_to: 'none'
 version: 0.1.0+1
 

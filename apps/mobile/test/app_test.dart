@@ -18,7 +18,7 @@ void main() {
     await tester.pumpWidget(ProviderScope(retry: (_, __) => null, child: const TransparenciaApp()));
     await tester.pump(const Duration(seconds: 4));
 
-    expect(find.text('Transparência SJBV'), findsOneWidget);
+    expect(find.text('Tô de Olho'), findsOneWidget);
     expect(find.textContaining('Para onde vai o dinheiro'), findsOneWidget);
     // Primeiro cartão do painel (vindo do asset embarcado dados/<ano>.json).
     expect(find.text('Entrou'), findsOneWidget);

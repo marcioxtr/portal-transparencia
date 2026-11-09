@@ -34,7 +34,7 @@ class PainelPage extends ConsumerWidget {
             SvgPicture.asset('assets/logo/logo.svg', height: 28),
             const SizedBox(width: 8),
             const Flexible(
-              child: Text('Transparência SJBV', overflow: TextOverflow.ellipsis),
+              child: Text('Tô de Olho', overflow: TextOverflow.ellipsis),
             ),
           ],
         ),
