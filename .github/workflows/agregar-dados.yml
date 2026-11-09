@@ -1,7 +1,9 @@
-# Reagrega diariamente os dados oficiais (TCE-SP + SICONFI) do ano corrente e
-# do anterior, e publica em dados/*.json. O app lê esses arquivos direto do
-# GitHub (raw) — é o nosso "backend" estático, de custo zero.
-name: Agregar dados oficiais
+# Atualiza diariamente TUDO o que o app mostra, sem intervenção humana:
+# - agregar.py: TCE-SP + SICONFI do ano corrente e anterior (painel)
+# - coletar.py: obras, câmara (SAPL), avisos, notícias, licitações, serviços,
+#   indicadores — raspados do site oficial e das APIs públicas
+# Publica em dados/*.json; o app lê direto do GitHub (raw). Backend de custo zero.
+name: Atualizar dados (TCE, SICONFI, site, SAPL)
 
 on:
   schedule:
@@ -33,6 +35,9 @@ jobs:
           for a in $ANOS; do python3 -I dados/agregar.py "$a"; done
           # cópia embarcada no app (primeiro uso / offline)
           mkdir -p apps/mobile/assets/dados && cp dados/*.json apps/mobile/assets/dados/
+      - name: Coletores (obras, câmara, avisos, notícias, licitações, serviços, indicadores)
+        continue-on-error: true
+        run: python3 -I dados/coletar.py
       - name: Commit se mudou
         run: |
           git config user.name 'agregador-bot'
