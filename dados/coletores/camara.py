@@ -55,6 +55,9 @@ def https_sapl(obj):
     return json.loads(json.dumps(obj, ensure_ascii=False).replace('http://sapl.', 'https://sapl.'))
 
 
+from . import fotos as _fotos
+
+
 def coletar():
     avisos = []
 
@@ -256,7 +259,7 @@ def coletar():
         avisos.append('Nomes dos prefeitos indisponíveis: a API do TSE (DivulgaCandContas) recusa acesso automatizado (HTTP 403). '
                       'Períodos de gestão vêm das legislaturas do SAPL; o nome fica em branco em vez de ser digitado à mão.')
 
-    return https_sapl({
+    return _fotos.espelhar(https_sapl({
         'fonte': {'sapl': SAPL, 'camara': URL_CAMARA},
         'legislaturas': legislaturas,
         'vereadores': vereadores,
@@ -269,7 +272,7 @@ def coletar():
         'metadados': {'materias': len(materias), 'votacoes': len(votacoes), 'votosNominais': sum(voto_valores.values()),
                       'votoValores': dict(voto_valores), 'normas': len(normas), 'sessoes': len(sessoes_raw)},
         'avisos': avisos,
-    })
+    }))
 
 
 def _prefeitos_tse():
