@@ -1,5 +1,23 @@
 # Arquitetura
 
+## Princípio zero: o app não precisa de manutenção para continuar atualizado
+
+Nada que o app mostra é digitado por uma pessoa. Cada dado vem de um destes caminhos:
+
+1. **API pública ao vivo** (SAPL da Câmara, TCE-SP, SICONFI) — o app chama direto quando a
+   consulta é leve (uma busca, um detalhe).
+2. **JSON regenerado diariamente** pelo GitHub Actions (`dados/*.json`), para tudo o que é
+   pesado ou raspado do site: `agregar.py` (TCE+SICONFI por ano) e `coletar.py`
+   (coletores em `dados/coletores/`: obras, câmara, avisos, notícias, licitações,
+   serviços, indicadores). O app lê via `dadosProvider('<nome>')`
+   (`lib/data/dados_remotos.dart`): rede → asset embarcado.
+3. **Texto editorial mínimo** (glossário, explicações de uma linha) — estático, revisado por PR.
+
+Se o site mudar o layout, o coletor falha **no Actions, não no celular**: o JSON anterior
+continua válido e o smoke diário abre uma issue. Um contribuidor conserta o coletor; o app
+nas lojas não precisa de release. A fonte da verdade é sempre o site/API oficial — toda tela
+mostra procedência e link para o original.
+
 ## Decisão central: app Flutter *sem backend obrigatório*
 
 O app fala diretamente com as fontes públicas. Não há servidor do projeto a manter, pagar ou que vire ponto único de falha — essencial para um projeto comunitário que precisa sobreviver à rotatividade de mantenedores.

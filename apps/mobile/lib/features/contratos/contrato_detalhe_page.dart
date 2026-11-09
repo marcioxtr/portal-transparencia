@@ -4,6 +4,7 @@ import 'package:fontes/fontes.dart';
 
 import '../../data/providers.dart';
 import '../../widgets/comuns.dart';
+import '../cidade/noticias_page.dart' show NoticiasRelacionadas;
 
 class ContratoDetalhePage extends ConsumerWidget {
   const ContratoDetalhePage({super.key, required this.id});
@@ -97,6 +98,9 @@ class _Detalhe extends StatelessWidget {
             label: const Text('Abrir documento (PDF)'),
           ),
         const SizedBox(height: 24),
+        if (c.contratado != null)
+          NoticiasRelacionadas(termo: c.contratado!.split(RegExp(r'\\s+')).where((w) => w.length > 3).take(2).join(' ')),
+        const SizedBox(height: 12),
         CardProcedencia(url: urlFonte),
       ],
     );

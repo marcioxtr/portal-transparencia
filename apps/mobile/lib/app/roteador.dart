@@ -3,6 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/busca/busca_page.dart';
+import '../features/cidade/avisos_page.dart';
+import '../features/cidade/cidade_page.dart';
+import '../features/cidade/conselhos_page.dart';
+import '../features/cidade/licitacoes_page.dart';
+import '../features/cidade/noticias_page.dart';
+import '../features/cidade/servicos_page.dart';
 import '../features/cobrar/cobrar_page.dart';
 import '../features/contratos/contrato_detalhe_page.dart';
 import '../features/contratos/contratos_page.dart';
@@ -11,6 +17,12 @@ import '../features/documentos/pasta_page.dart';
 import '../features/emendas/emenda_detalhe_page.dart';
 import '../features/emendas/emendas_page.dart';
 import '../features/glossario/glossario_page.dart';
+import '../features/indicadores/comparar_page.dart';
+import '../features/indicadores/mudancas_page.dart';
+import '../features/indicadores/semaforo_page.dart';
+import '../features/indicadores/vizinhos_page.dart';
+import '../features/obras/obra_detalhe_page.dart';
+import '../features/obras/obras_page.dart';
 import '../features/painel/painel_page.dart';
 import '../features/sobre/sobre_page.dart';
 import '../widgets/vidro.dart';
@@ -30,6 +42,28 @@ abstract final class Rotas {
   static const glossario = '/glossario';
   static const cobrar = '/cobrar';
   static const sobre = '/sobre';
+
+  // Obras públicas (dados/obras.json)
+  static const obras = '/obras';
+  static String obra(String slug) => '/obras/$slug';
+
+  // Câmara Municipal (dados/camara.json + SAPL ao vivo)
+  static const camara = '/camara';
+  static String vereador(int id) => '/camara/vereador/$id';
+
+  // Cidade: avisos, notícias, serviços, conselhos (dados/avisos|noticias|servicos.json)
+  static const cidade = '/cidade';
+  static const avisos = '/cidade/avisos';
+  static const noticias = '/cidade/noticias';
+  static const servicos = '/cidade/servicos';
+  static const conselhos = '/cidade/conselhos';
+  static const licitacoes = '/licitacoes';
+
+  // Indicadores (dados/indicadores.json)
+  static const comparar = '/comparar';
+  static const indicadores = '/indicadores';
+  static const mudancas = '/mudancas';
+  static const vizinhos = '/vizinhos';
 }
 
 /// Transição suave (fade + leve deslize) para páginas fora das abas.
@@ -49,9 +83,13 @@ CustomTransitionPage<void> _suave(GoRouterState s, Widget child) => CustomTransi
       },
     );
 
+/// Rota inicial pode ser sobrescrita em tempo de build
+/// (`--dart-define=ROTA_INICIAL=/obras`) — usado em testes de tela e capturas.
+const _rotaInicial = String.fromEnvironment('ROTA_INICIAL', defaultValue: Rotas.inicio);
+
 final roteadorProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: Rotas.inicio,
+    initialLocation: _rotaInicial,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => Casca(shell: shell),
@@ -103,6 +141,37 @@ final roteadorProvider = Provider<GoRouter>((ref) {
           ]),
         ],
       ),
+      GoRoute(
+        path: Rotas.obras,
+        pageBuilder: (_, s) => _suave(s, const FundoVidro(child: ObrasPage())),
+        routes: [
+          GoRoute(
+            path: ':slug',
+            pageBuilder: (_, s) => _suave(s, FundoVidro(child: ObraDetalhePage(slug: s.pathParameters['slug']!))),
+          ),
+        ],
+      ),
+      GoRoute(path: Rotas.cidade, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: CidadePage()))),
+      GoRoute(path: Rotas.avisos, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: AvisosPage()))),
+      GoRoute(
+        path: Rotas.noticias,
+        pageBuilder: (_, s) => _suave(
+          s,
+          FundoVidro(
+            child: NoticiasPage(
+              departamento: s.uri.queryParameters['departamento'],
+              busca: s.uri.queryParameters['busca'],
+            ),
+          ),
+        ),
+      ),
+      GoRoute(path: Rotas.servicos, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: ServicosPage()))),
+      GoRoute(path: Rotas.conselhos, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: ConselhosPage()))),
+      GoRoute(path: Rotas.licitacoes, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: LicitacoesPage()))),
+      GoRoute(path: Rotas.comparar, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: CompararPage()))),
+      GoRoute(path: Rotas.indicadores, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: SemaforoPage()))),
+      GoRoute(path: Rotas.mudancas, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: MudancasPage()))),
+      GoRoute(path: Rotas.vizinhos, pageBuilder: (_, s) => _suave(s, const FundoVidro(child: VizinhosPage()))),
       GoRoute(
         path: Rotas.glossario,
         pageBuilder: (_, s) => _suave(s, const FundoVidro(child: GlossarioPage())),

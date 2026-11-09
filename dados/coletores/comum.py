@@ -106,7 +106,7 @@ def campos(html_):
     """Pares <strong>Rótulo:</strong> valor do corpo → {chave: valor}."""
     out = {}
     corpo = conteudo(html_)
-    for rot, val in re.findall(r'<strong>\s*([^<]+?)\s*:?\s*</strong>\s*:?\s*(.*?)(?=<strong>|</p>|<br|</div>)', corpo, re.S):
+    for rot, val in re.findall(r'<(?:strong|b)>\s*([^<]+?)\s*:?\s*</(?:strong|b)>\s*:?\s*(.*?)(?=<(?:strong|b)>|</p>|<br|</div>)', corpo, re.S):
         v = texto(val)
         if v:
             out[chave(rot)] = v

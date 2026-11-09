@@ -1,4 +1,24 @@
-# dados/ — agregados oficiais para o painel
+# dados/ — tudo o que o app mostra, regenerado todo dia
+
+## Coletores (`coletar.py`)
+
+`python3 -I dados/coletar.py [nomes]` roda os módulos de `dados/coletores/` e grava
+`dados/<nome>.json` + cópia em `apps/mobile/assets/dados/`. Cada módulo tem uma função
+`coletar() -> dict` e documenta seu esquema no topo do arquivo:
+
+| JSON | Fonte | Conteúdo |
+|---|---|---|
+| `obras.json` | site `/obras` | obras georreferenciadas, empresa, valor, % executado |
+| `camara.json` | SAPL (API) + TSE | vereadores, mandatos, votos, matérias, sessões, leis, gestões |
+| `avisos.json` | site | interdições, alterações de trânsito, coleta, eventos, reuniões de conselhos |
+| `noticias.json` | RSS + site | últimas notícias por departamento |
+| `licitacoes.json` | site | chamamentos, inexigibilidades, processos seletivos |
+| `servicos.json` | site | unidades de saúde, escolas, conselhos, carta de serviços, ouvidoria, metas |
+| `indicadores.json` | SICONFI + TCE + `{ano}.json` | mínimos constitucionais, LRF, comparativos, vizinhos, o que mudou |
+
+Um coletor que falhar não derruba os outros nem apaga o JSON anterior.
+
+## Agregados do painel (`agregar.py`)
 
 Um JSON por exercício (`2014.json` … `2026.json`), gerado por `agregar.py` a
 partir de duas fontes oficiais e públicas:

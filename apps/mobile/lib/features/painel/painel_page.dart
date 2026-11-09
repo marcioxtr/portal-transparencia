@@ -128,6 +128,7 @@ class _Corpo extends ConsumerWidget {
     final parcial = p.meses.length < 12;
     final itens = <Widget>[
       _Resumo(p: p, parcial: parcial),
+      const _Atalhos(),
       _Mensal(p: p),
       _DeOndeVem(p: p),
       _ParaOndeVai(p: p),
@@ -377,6 +378,53 @@ class _Etiqueta extends StatelessWidget {
             Icon(Icons.info_outline, size: 12, color: Theme.of(context).colorScheme.outline),
           ],
         ]),
+      ),
+    );
+  }
+}
+
+// ── Atalhos para as outras seções ──────────────────────────────────────────
+
+class _Atalhos extends StatelessWidget {
+  const _Atalhos();
+
+  @override
+  Widget build(BuildContext context) {
+    final itens = <(IconData, String, String, Color, String)>[
+      (Icons.construction_outlined, 'Obras', 'no mapa, com % pago', Cores.laranja, Rotas.obras),
+      (Icons.how_to_vote_outlined, 'Câmara', 'vereadores e votos', Cores.violeta, Rotas.camara),
+      (Icons.compare_arrows_rounded, 'Comparar', 'anos e mandatos', Cores.azulCeu, Rotas.comparar),
+      (Icons.traffic_rounded, 'Limites da lei', 'saúde, educação, pessoal', Cores.verde, Rotas.indicadores),
+      (Icons.campaign_outlined, 'Avisos', 'trânsito, coleta, eventos', Cores.rosa, Rotas.avisos),
+      (Icons.change_circle_outlined, 'O que mudou', 'de um ano pro outro', Cores.amarelo, Rotas.mudancas),
+    ];
+    return SizedBox(
+      height: 104,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: itens.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        itemBuilder: (context, i) {
+          final (icone, titulo, sub, cor, rota) = itens[i];
+          return SizedBox(
+            width: 150,
+            child: CartaoVidro(
+              padding: const EdgeInsets.all(14),
+              raio: 22,
+              cor: cor,
+              onTap: () => context.push(rota),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(icone, color: cor, size: 24),
+                  const Spacer(),
+                  Text(titulo, style: Theme.of(context).textTheme.titleSmall),
+                  Text(sub, style: Theme.of(context).textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
