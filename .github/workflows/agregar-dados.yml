@@ -1,0 +1,43 @@
+# Reagrega diariamente os dados oficiais (TCE-SP + SICONFI) do ano corrente e
+# do anterior, e publica em dados/*.json. O app lê esses arquivos direto do
+# GitHub (raw) — é o nosso "backend" estático, de custo zero.
+name: Agregar dados oficiais
+
+on:
+  schedule:
+    - cron: '41 8 * * *' # 05:41 BRT
+  workflow_dispatch:
+    inputs:
+      anos:
+        description: 'Anos separados por espaço (vazio = atual e anterior)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  agregar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Agregar
+        run: |
+          ANOS="${{ github.event.inputs.anos }}"
+          if [ -z "$ANOS" ]; then
+            ATUAL=$(date +%Y); ANOS="$((ATUAL-1)) $ATUAL"
+          fi
+          for a in $ANOS; do python3 -I dados/agregar.py "$a"; done
+          # cópia embarcada no app (primeiro uso / offline)
+          mkdir -p apps/mobile/assets/dados && cp dados/*.json apps/mobile/assets/dados/
+      - name: Commit se mudou
+        run: |
+          git config user.name 'agregador-bot'
+          git config user.email 'agregador-bot@users.noreply.github.com'
+          git add dados/*.json apps/mobile/assets/dados/*.json
+          if git diff --cached --quiet; then echo "sem mudanças"; exit 0; fi
+          git commit -m "dados: atualização automática $(date -u +%Y-%m-%d)"
+          git push

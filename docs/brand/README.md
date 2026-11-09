@@ -2,17 +2,20 @@
 
 ## Conceito
 
-Seis pessoas, seis cores, encaixadas como peças de um quebra-cabeça em roda.
-O centro é **vazio**: a informação pública fica aberta, no meio, para qualquer
-um olhar. Uma peça está **entrando** — sempre cabe mais gente. É a ideia de
-*ubuntu* ("eu sou porque nós somos") aplicada à transparência: a comunidade
-monta a imagem inteira junta, e todo mundo ganha.
+Um **cubo montado de peças de quebra-cabeça**, em isometria: três faces
+visíveis, cada uma com quatro peças encaixadas, nas seis cores da marca. A
+cidade se constrói peça por peça; cada face é um lado da mesma história —
+quem arrecada, quem gasta, quem fiscaliza. As faces laterais são mais escuras
+(sombreamento) para dar volume; a sombra no chão ancora o objeto.
 
-O desenho é **original** (gerado por `gerar_logo_anel.py`, licença MIT). Foi
-inspirado em um motivo comum — anel de peças com pessoas — mas não reproduz
-nenhuma arte de terceiros. Não use ilustrações de bancos de imagem (stock)
-no projeto: elas têm licença própria e não podem ser redistribuídas num
+O desenho é **original** (gerado por `gerar_logo_cubo.py`, licença MIT),
+inspirado num motivo comum — cubo de peças — sem reproduzir arte de terceiros.
+Não use ilustrações de bancos de imagem (Freepik, Depositphotos…) no projeto:
+as licenças proíbem uso como logotipo e não permitem redistribuição num
 repositório aberto.
+
+Variante anterior (anel de pessoas-peça) continua disponível em
+`gerar_logo_anel.py` para materiais de divulgação ("a comunidade em roda").
 
 ## Arquivos
 
@@ -21,15 +24,16 @@ repositório aberto.
 | `apps/mobile/assets/logo/logo.svg` | Logo principal (fundo transparente), usado no app |
 | `apps/mobile/assets/logo/icon.png` | Ícone 1024² com fundo branco arredondado (lojas) |
 | `apps/mobile/assets/logo/icon_fg.png` | Camada *foreground* do ícone adaptativo Android |
-| `docs/brand/gerar_logo_anel.py` | Gerador — mude cores/geometria aqui e regenere |
+| `docs/brand/gerar_logo_cubo.py` | Gerador do logo atual — mude cores/geometria e regenere |
+| `docs/brand/gerar_logo_anel.py` | Gerador da variante "anel de pessoas" |
 
 Regenerar:
 
 ```bash
 cd apps/mobile/assets/logo
-python3 ../../../../docs/brand/gerar_logo_anel.py logo.svg
-python3 ../../../../docs/brand/gerar_logo_anel.py icon.svg --margem=10 --fundo=#FFFFFF
-python3 ../../../../docs/brand/gerar_logo_anel.py icon_fg.svg --margem=40
+python3 ../../../../docs/brand/gerar_logo_cubo.py logo.svg
+python3 ../../../../docs/brand/gerar_logo_cubo.py icon.svg --margem=14 --fundo=#FFFFFF --tamanho=1024
+python3 ../../../../docs/brand/gerar_logo_cubo.py icon_fg.svg --margem=44 --tamanho=1024
 # converter os .svg de ícone para PNG 1024 (macOS: qlmanage -t -s 1024; ou rsvg-convert)
 cd ../.. && dart run flutter_launcher_icons
 ```
@@ -38,12 +42,12 @@ cd ../.. && dart run flutter_launcher_icons
 
 | Nome | Hex | Onde |
 |---|---|---|
-| Rosa-vermelho | `#FF3B5C` | peça 1 (a que entra) |
-| Laranja | `#FF8C1A` | peça 2 |
-| Amarelo | `#FFD60A` | peça 3 |
-| Verde | `#3DDC84` | peça 4 |
-| Azul-céu | `#00B4FF` | peça 5 |
-| Violeta | `#8A4DFF` | peça 6 |
+| Rosa-vermelho | `#FF3B5C` | peças · **despesa/pago** no painel |
+| Laranja | `#FF8C1A` | peças · empenhado no painel |
+| Amarelo | `#FFD60A` | peças · "ano parcial" |
+| Verde | `#3DDC84` | peças · **receita** no painel |
+| Azul-céu | `#00B4FF` | peças · acentos |
+| Violeta | `#8A4DFF` | peças · acentos |
 | Azul (UI) | `#4361EE` | cor-semente do tema Material (`lib/app/tema.dart`) |
 
 Cores vivas de propósito: transparência não precisa parecer repartição.

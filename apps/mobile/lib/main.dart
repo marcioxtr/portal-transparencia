@@ -7,5 +7,12 @@ import 'app/app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('pt_BR');
-  runApp(const ProviderScope(child: TransparenciaApp()));
+  runApp(
+    ProviderScope(
+      // O ClienteHttp já faz retry (só em 5xx/rede). O retry do Riverpod
+      // deixaria a tela em "carregando" por minutos quando a fonte está fora.
+      retry: (_, __) => null,
+      child: const TransparenciaApp(),
+    ),
+  );
 }

@@ -9,6 +9,7 @@ environment:
   sdk: ^3.5.0
 
 dependencies:
+  fl_chart: ^1.3.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -19,6 +20,7 @@ dependencies:
     path: ../../packages/fontes
   go_router: ^18.1.3
   intl: ^0.20.0
+  share_plus: ^13.3.1
   shared_preferences: ^2.5.6
   url_launcher: ^6.3.0
 
@@ -32,6 +34,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/logo/logo.svg
+    - assets/dados/
 
 # Ícones das lojas gerados a partir de assets/logo/*.png (ver docs/brand/).
 # Rodar: dart run flutter_launcher_icons

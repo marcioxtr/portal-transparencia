@@ -10,12 +10,13 @@ O cidadão que quer saber "quanto a prefeitura gastou com X" precisa descobrir e
 
 ## Status
 
-**Fase 1 — MVP em andamento.** App navegável (Android + iOS) consumindo contratos, emendas e documentos históricos com dados reais; receitas/despesas aguardam o portal SmarAPD voltar ao ar. Veja o [roadmap](docs/04-roadmap.md).
+**Fase 1 — MVP em andamento.** Painel "para onde vai o dinheiro" com dados oficiais do **TCE-SP** e do **SICONFI** (2014 → hoje): receita × despesa, de onde vem (IPTU, FPM, ICMS…), para onde vai (saúde, educação…), quem mais recebe, por morador. Contratos, emendas e documentos históricos do site da Prefeitura. Glossário em linguagem cidadã e tela "Cobrar" com pedido LAI pronto. Visual em vidro, Android + iOS. Veja o [roadmap](docs/04-roadmap.md).
 
 <p align="center">
-  <img src="docs/screenshots/android-inicio-2026-11-09.png" width="260" alt="Início no Android">
-  &nbsp;&nbsp;
-  <img src="docs/screenshots/ios-inicio-2026-11-09.png" width="260" alt="Início no iOS">
+  <img src="docs/screenshots/android-painel-1.png" width="200" alt="Painel: entrou × saiu">
+  <img src="docs/screenshots/android-painel-2.png" width="200" alt="De onde vem o dinheiro">
+  <img src="docs/screenshots/android-painel-3.png" width="200" alt="Para onde vai e quem recebe">
+  <img src="docs/screenshots/ios-painel.png" width="200" alt="iOS">
 </p>
 
 | Fonte | Período | Tecnologia | Mapeamento |
@@ -23,7 +24,8 @@ O cidadão que quer saber "quanto a prefeitura gastou com X" precisa descobrir e
 | SmarAPD PAI | 2026 → | API JSON | ✅ [endpoints](docs/api/smarapd-pai.md) · ⏳ amostras de resposta |
 | Site da Prefeitura (contratos, emendas) | todos | HTML | ✅ [seletores](docs/api/site-prefeitura.md) |
 | Arquivos legados (eCrie) | ≤ 2022 | HTML (árvore) | ✅ [22 pastas](docs/api/site-prefeitura.md#3-transparência-até-2022--arquivos-file-browser-ecrie) |
-| Intertec GPMOD | 2023–2025 | Oracle APEX | ⛔ [fora do ar](docs/api/intertec-gpmod.md) → alternativa TCE-SP |
+| Intertec GPMOD | 2023–2025 | Oracle APEX | ⛔ [fora do ar](docs/api/intertec-gpmod.md) |
+| **TCE-SP + SICONFI** | 2014 → | API JSON | ✅ [agregados diários](dados/README.md) — base do painel |
 
 ## Estrutura do repositório
 
