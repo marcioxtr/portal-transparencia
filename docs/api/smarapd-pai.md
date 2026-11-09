@@ -201,7 +201,8 @@ e cole o resultado em `docs/api/samples/MenuPortal.json`.
 
 - [ ] Capturar `MenuPortal` real (lista definitiva de módulos/visões do município).
 - [ ] Capturar amostras de `modulovisao/filter` para 3–4 visões (Receitas, Despesas, Servidores, Licitações).
-- [ ] Confirmar se basta o header `Referer` ou se o servidor valida `Origin`. Em testes com `curl` do dia 2026-11-08, chamadas com `Referer` ficaram pendentes >30 s (possível proteção anti-bot do Cloudflare na borda); sem `Referer` → 400 imediato.
+- [ ] Confirmar se basta o header `Referer` ou se o servidor valida `Origin`. Sem `Referer` → 400 imediato ("Não foi possível obter a origem da requisição").
+- [ ] **Backend instável.** Em 2026-11-08 (noite) o próprio portal oficial, aberto no navegador, recebia `HTTP 500` em `cliente`, `configuracaoaparencia` e `MenuPortal` (console do SPA: `[DefaultLayout] Falha ao carregar configuracao/cliente`). Via `curl` com `Referer`, 500 após ~87 s. Ou seja, a API estava fora do ar para todos — não é bloqueio. O smoke diário (`.github/workflows/smoke-fontes.yml`) agora checa `paiportalserver/cliente`; capturar amostras assim que voltar a responder 200.
 - [ ] Verificar limites de taxa (rate limit) para dimensionar cache do app.
 
 ## Observações de uso responsável

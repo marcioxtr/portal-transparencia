@@ -47,6 +47,14 @@ jobs:
           echo "$html" | grep -q 'pai-webapp' \
             && echo "ok=true" >> "$GITHUB_OUTPUT" || echo "ok=false" >> "$GITHUB_OUTPUT"
 
+      - name: SmarAPD — API respondendo?
+        id: smarapd_api
+        run: |
+          H=https://transparencia-saojoaodaboavista.smarapd.com.br
+          code=$(curl -sS -m 60 -o /dev/null -w '%{http_code}' -A "$UA" -H "Accept: application/json" -H "Referer: $H/" "$H/paiportalserver/cliente" || echo 000)
+          echo "status=$code" >> "$GITHUB_OUTPUT"
+          [ "$code" = "200" ] && echo "ok=true" >> "$GITHUB_OUTPUT" || echo "ok=false" >> "$GITHUB_OUTPUT"
+
       - name: Intertec — voltou da manutenção?
         id: intertec
         run: |
@@ -55,7 +63,7 @@ jobs:
             && echo "voltou=false" >> "$GITHUB_OUTPUT" || echo "voltou=true" >> "$GITHUB_OUTPUT"
 
       - name: Abrir issue se algo quebrou
-        if: steps.contratos.outputs.ok != 'true' || steps.emendas.outputs.ok != 'true' || steps.ecrie.outputs.ok != 'true' || steps.smarapd.outputs.ok != 'true' || steps.intertec.outputs.voltou == 'true'
+        if: steps.contratos.outputs.ok != 'true' || steps.emendas.outputs.ok != 'true' || steps.ecrie.outputs.ok != 'true' || steps.smarapd.outputs.ok != 'true' || steps.smarapd_api.outputs.ok != 'true' || steps.intertec.outputs.voltou == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -64,6 +72,7 @@ jobs:
               'Site da Prefeitura emendas': '${{ steps.emendas.outputs.ok }}',
               'eCrie árvore': '${{ steps.ecrie.outputs.ok }}',
               'SmarAPD SPA': '${{ steps.smarapd.outputs.ok }}',
+              'SmarAPD API paiportalserver/cliente (HTTP ${{ steps.smarapd_api.outputs.status }})': '${{ steps.smarapd_api.outputs.ok }}',
             };
             const voltou = '${{ steps.intertec.outputs.voltou }}' === 'true';
             const linhas = Object.entries(estados).map(([k, v]) => `- ${v === 'true' ? '✅' : '❌'} ${k}`);
