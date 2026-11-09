@@ -64,6 +64,8 @@ class _CompararPageState extends ConsumerState<CompararPage> {
                 Aparecer(indice: 3, child: _TabelaAnos(anos: anos)),
               ] else ...[
                 Aparecer(indice: 1, child: _Mandatos(mandatos: mandatos)),
+                const SizedBox(height: 14),
+                Aparecer(indice: 2, child: _PlacarMandatos(anos: anos, mandatos: mandatos, lrf: j.lista('lrf'))),
               ],
               const SizedBox(height: 14),
               Aparecer(
@@ -400,4 +402,121 @@ class _Legenda extends StatelessWidget {
         const SizedBox(width: 6),
         Flexible(child: Text(texto, style: Theme.of(context).textTheme.labelMedium, softWrap: true)),
       ]);
+}
+
+
+// ── Placar por indicador (mandatos completos) ──────────────────────────────
+
+/// Para cada indicador oficial, qual mandato teve o MAIOR e o MENOR valor.
+/// Critérios abertos e numéricos; "melhor/pior" é conclusão do leitor.
+class _PlacarMandatos extends StatelessWidget {
+  const _PlacarMandatos({required this.anos, required this.mandatos, required this.lrf});
+  final List<Map<String, dynamic>> anos;
+  final List<Map<String, dynamic>> mandatos;
+  final List<Map<String, dynamic>> lrf;
+
+  @override
+  Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    final completos = mandatos.where((m) => m.bool_('completo')).toList();
+    if (completos.length < 2) return const SizedBox.shrink();
+
+    final porAno = {for (final a in anos) a.int_('ano'): a};
+    final lrfPorAno = {for (final l in lrf) l.int_('ano'): l.numOuNulo('pessoalPercentual')};
+
+    double? mediaFuncao(Map<String, dynamic> m, String nome) {
+      final vals = <double>[];
+      for (final ano in (m['anos'] as List).cast<int>()) {
+        final a = porAno[ano];
+        if (a == null) continue;
+        final total = a.num_('empenhado');
+        final f = a.lista('funcoesTop').where((f) => (f['nome'] as String?) == nome).toList();
+        if (f.isNotEmpty && total > 0) vals.add(f.first.num_('empenhado') / total * 100);
+      }
+      return vals.isEmpty ? null : vals.reduce((x, y) => x + y) / vals.length;
+    }
+
+    double? mediaPessoal(Map<String, dynamic> m) {
+      final vals = [for (final ano in (m['anos'] as List).cast<int>()) if (lrfPorAno[ano] != null) lrfPorAno[ano]!];
+      return vals.isEmpty ? null : vals.reduce((x, y) => x + y) / vals.length;
+    }
+
+    final indicadores = <(String, String, double? Function(Map<String, dynamic>), String Function(double))>[
+      ('Arrecadação por morador (média/ano)', 'Quanto entrou, dividido pela população', (m) => m.numOuNulo('receitaPorHabitanteMedia'), (v) => reais((v * 100).round())),
+      ('Gasto pago por morador (média/ano)', 'Quanto saiu de fato, por habitante', (m) => m.numOuNulo('pagoPorHabitanteMedia'), (v) => reais((v * 100).round())),
+      ('Sobra de caixa no mandato', 'Arrecadado menos pago, em % do arrecadado', (m) => m.num_('receita') > 0 ? (m.num_('receita') - m.num_('pago')) / m.num_('receita') * 100 : null, (v) => '${v.toStringAsFixed(1)}%'),
+      ('Fatia em Saúde', '% da despesa empenhada na função Saúde', (m) => mediaFuncao(m, 'Saúde'), (v) => '${v.toStringAsFixed(1)}%'),
+      ('Fatia em Educação', '% da despesa empenhada na função Educação', (m) => mediaFuncao(m, 'Educação'), (v) => '${v.toStringAsFixed(1)}%'),
+      ('Gasto com pessoal (LRF)', '% da receita corrente líquida · limite 54%', mediaPessoal, (v) => '${v.toStringAsFixed(1)}%'),
+    ];
+
+    String rotulo(Map<String, dynamic> m) => '${m.str('periodo')}${m.strOuNulo('prefeito') != null ? ' · ${m.str('prefeito')}' : ''}';
+
+    return CartaoVidro(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TituloSecao('Placar por indicador', subtitulo: 'só mandatos completos · maior e menor valor, sem juízo'),
+          for (final (nome, desc, f, fmt) in indicadores) ...[
+            Builder(builder: (context) {
+              final valores = [for (final m in completos) if (f(m) != null) (m, f(m)!)];
+              if (valores.length < 2) return const SizedBox.shrink();
+              valores.sort((a, b) => b.$2.compareTo(a.$2));
+              final maior = valores.first;
+              final menor = valores.last;
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(nome, style: tt.titleSmall),
+                    Text(desc, style: tt.bodySmall),
+                    const SizedBox(height: 6),
+                    Row(children: [
+                      Expanded(child: _Lado(rotulo: 'Maior', mandato: rotulo(maior.$1), valor: fmt(maior.$2), cor: Cores.azulCeu)),
+                      const SizedBox(width: 8),
+                      Expanded(child: _Lado(rotulo: 'Menor', mandato: rotulo(menor.$1), valor: fmt(menor.$2), cor: Cores.laranja)),
+                    ]),
+                  ],
+                ),
+              );
+            }),
+          ],
+          const SizedBox(height: 6),
+          Text(
+            'Fontes: TCE-SP (lançamentos), SICONFI (funções e LRF). Mandatos em curso ficam fora do placar. '
+            'Nomes dos prefeitos entram quando a fonte oficial (TSE) estiver integrada.',
+            style: tt.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Lado extends StatelessWidget {
+  const _Lado({required this.rotulo, required this.mandato, required this.valor, required this.cor});
+  final String rotulo, mandato, valor;
+  final Color cor;
+
+  @override
+  Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: cor.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: cor.withValues(alpha: 0.4)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(rotulo.toUpperCase(), style: tt.labelSmall?.copyWith(color: cor, letterSpacing: 1)),
+          Text(mandato, style: tt.labelLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text(valor, style: tt.titleMedium?.copyWith(color: cor)),
+        ],
+      ),
+    );
+  }
 }

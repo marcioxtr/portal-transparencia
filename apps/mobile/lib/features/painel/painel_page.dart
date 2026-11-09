@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/roteador.dart';
 import '../../app/tema.dart';
 import '../../data/painel.dart';
+import '../../data/dados_remotos.dart';
 import '../../data/providers.dart';
 import '../../widgets/botao_menu.dart';
 import '../../widgets/comuns.dart';
@@ -129,6 +130,7 @@ class _Corpo extends ConsumerWidget {
       _ParaOndeVai(p: p),
       _QuemRecebe(p: p),
       _Orgaos(p: p),
+      const _Historico(),
       CartaoVidro(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -931,6 +933,103 @@ class _Orgaos extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+// ── Histórico 2014→hoje (dados/indicadores.json) ───────────────────────────
+
+class _Historico extends ConsumerWidget {
+  const _Historico();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tt = Theme.of(context).textTheme;
+    final dados = ref.watch(dadosProvider('indicadores'));
+    return dados.maybeWhen(
+      data: (j) {
+        final anos = j.lista('anos').where((a) => !a.bool_('parcial')).toList();
+        if (anos.length < 3) return const SizedBox.shrink();
+        final maxY = anos.fold<double>(0, (m, a) => [m, a.num_('receita'), a.num_('pago')].reduce((x, y) => x > y ? x : y)) / 1e6;
+        return CartaoVidro(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TituloSecao('${anos.length} anos em um olhar',
+                  subtitulo: 'arrecadado × pago, em milhões · toque num ano',
+                  acao: () => context.push(Rotas.comparar),
+                  rotuloAcao: 'Comparar'),
+              SizedBox(
+                height: 180,
+                child: BarChart(
+                  duration: const Duration(milliseconds: 600),
+                  BarChartData(
+                    maxY: maxY * 1.1,
+                    alignment: BarChartAlignment.spaceAround,
+                    gridData: FlGridData(
+                      show: true,
+                      drawVerticalLine: false,
+                      getDrawingHorizontalLine: (_) => FlLine(color: Vidro.of(context).borda, strokeWidth: 1),
+                    ),
+                    borderData: FlBorderData(show: false),
+                    titlesData: FlTitlesData(
+                      topTitles: const AxisTitles(),
+                      rightTitles: const AxisTitles(),
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 34,
+                          getTitlesWidget: (v, _) => Text('${v.round()}', style: tt.labelSmall),
+                        ),
+                      ),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (v, _) => Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: Text("'${v.round().toString().substring(2)}", style: tt.labelSmall),
+                          ),
+                        ),
+                      ),
+                    ),
+                    barTouchData: BarTouchData(
+                      longPressDuration: const Duration(milliseconds: 220),
+                      touchCallback: (e, r) {
+                        if (e is FlTapUpEvent && r?.spot != null) {
+                          ref.read(anoPainelProvider.notifier).definir(r!.spot!.touchedBarGroup.x);
+                        }
+                      },
+                      touchTooltipData: BarTouchTooltipData(
+                        getTooltipItem: (g, _, rod, __) => BarTooltipItem(
+                          reaisCurto((rod.toY * 1e6 * 100).round()),
+                          TextStyle(color: rod.color, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                    barGroups: [
+                      for (final a in anos)
+                        BarChartGroupData(
+                          x: a.int_('ano'),
+                          barsSpace: 2,
+                          barRods: [
+                            BarChartRodData(toY: a.num_('receita') / 1e6, color: Cores.receita, width: 6, borderRadius: BorderRadius.circular(3)),
+                            BarChartRodData(toY: a.num_('pago') / 1e6, color: Cores.despesa, width: 6, borderRadius: BorderRadius.circular(3)),
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Wrap(spacing: 14, children: const [
+                _Legenda(Cores.receita, 'Arrecadado'),
+                _Legenda(Cores.despesa, 'Pago'),
+              ]),
+            ],
+          ),
+        );
+      },
+      orElse: () => const SizedBox.shrink(),
     );
   }
 }

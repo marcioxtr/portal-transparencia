@@ -1,8 +1,13 @@
-# Marca — Transparência SJBV
+# Marca — Tô de Olho
 
 ## Conceito
 
-Um **cubo montado de peças de quebra-cabeça**, em isometria: três faces
+**Tô de Olho — Transparência na palma da mão.** O símbolo é um **olho cuja íris é
+o cubo de peças de quebra-cabeça**: fiscalização cidadã (o olho) sobre a cidade que
+se monta peça por peça (o cubo). Gerado por `gerar_logo_olho.py`, que reutiliza a
+geometria de `gerar_logo_cubo.py`.
+
+O cubo sozinho — um **cubo montado de peças de quebra-cabeça**, em isometria: três faces
 visíveis, cada uma com quatro peças encaixadas, nas seis cores da marca. A
 cidade se constrói peça por peça; cada face é um lado da mesma história —
 quem arrecada, quem gasta, quem fiscaliza. As faces laterais são mais escuras
@@ -24,16 +29,17 @@ Variante anterior (anel de pessoas-peça) continua disponível em
 | `apps/mobile/assets/logo/logo.svg` | Logo principal (fundo transparente), usado no app |
 | `apps/mobile/assets/logo/icon.png` | Ícone 1024² com fundo branco arredondado (lojas) |
 | `apps/mobile/assets/logo/icon_fg.png` | Camada *foreground* do ícone adaptativo Android |
-| `docs/brand/gerar_logo_cubo.py` | Gerador do logo atual — mude cores/geometria e regenere |
+| `docs/brand/gerar_logo_olho.py` | Gerador do logo atual (olho + cubo) |
+| `docs/brand/gerar_logo_cubo.py` | Geometria do cubo (usada pelo olho; também serve como símbolo isolado) |
 | `docs/brand/gerar_logo_anel.py` | Gerador da variante "anel de pessoas" |
 
 Regenerar:
 
 ```bash
 cd apps/mobile/assets/logo
-python3 ../../../../docs/brand/gerar_logo_cubo.py logo.svg
-python3 ../../../../docs/brand/gerar_logo_cubo.py icon.svg --margem=14 --fundo=#FFFFFF --tamanho=1024
-python3 ../../../../docs/brand/gerar_logo_cubo.py icon_fg.svg --margem=44 --tamanho=1024
+python3 ../../../../docs/brand/gerar_logo_olho.py logo.svg
+python3 ../../../../docs/brand/gerar_logo_olho.py icon.svg --margem=6 --fundo=#FFFFFF --tamanho=1024
+python3 ../../../../docs/brand/gerar_logo_olho.py icon_fg.svg --margem=40 --tamanho=1024
 # converter os .svg de ícone para PNG 1024 (macOS: qlmanage -t -s 1024; ou rsvg-convert)
 cd ../.. && dart run flutter_launcher_icons
 ```
@@ -56,7 +62,7 @@ texto e superfícies seguem o esquema Material gerado a partir do azul.
 
 ## Nome e identidade
 
-- Nome de trabalho: **Transparência SJBV** · subtítulo "app cidadão".
+- Nome: **Tô de Olho** · slogan "Transparência na palma da mão" · subtítulo "app cidadão, independente e de código aberto".
 - Nunca usar brasão, bandeira ou logotipo da Prefeitura. Nunca sugerir que é
   um canal oficial. Toda tela com dado mostra a procedência.
 - Tom de voz: direto, em linguagem cidadã ("quanto a Prefeitura gastou?"),

@@ -1,7 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Transparência SJBV — cubo montado de peças de quebra-cabeça coloridas">
-<!-- Logo original do projeto Transparência SJBV (MIT). Gerado por docs/brand/gerar_logo_cubo.py. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Tô de Olho — um olho cuja íris é um cubo de peças de quebra-cabeça coloridas">
+<!-- Logo original do projeto Tô de Olho (MIT). Gerado por docs/brand/gerar_logo_olho.py. -->
 <g transform="translate(100 100) scale(1.0000) translate(-100 -100)">
-<ellipse cx="100.0" cy="188.0" rx="81.9" ry="17.2" fill="#000" opacity="0.10"/>
+<path d="M8 100 Q100 14 192 100 Q100 186 8 100 Z" fill="#FFFFFF" stroke="#14172B" stroke-width="7" stroke-linejoin="round"/>
+<circle cx="100" cy="100" r="56" fill="#4361EE"/>
+<defs><clipPath id="iris"><circle cx="100" cy="100" r="49"/></clipPath></defs>
+<circle cx="100" cy="100" r="49" fill="#0E1230"/>
+<g clip-path="url(#iris)" transform="translate(100 100) scale(0.5) translate(-100 -104)">
 <path d="M32.45 65.00 L66.23 84.50 L66.23 98.15 C66.23 102.05 69.06 101.35 70.95 103.22 C78.38 100.88 78.38 121.16 70.95 110.24 C69.06 109.93 66.23 105.95 66.23 109.85 L66.23 123.50 L54.40 116.67 C51.03 114.72 53.05 119.17 52.38 120.97 C58.12 132.86 40.56 122.72 46.30 117.46 C45.62 114.88 47.65 112.77 44.27 110.83 L32.45 104.00 L32.45 65.00 Z" fill="#6B3CC6" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
 <path d="M66.23 84.50 L100.00 104.00 L100.00 143.00 L88.18 136.17 C84.80 134.22 86.83 132.12 86.15 129.54 C91.89 124.28 74.33 114.14 80.07 126.03 C79.40 127.83 81.42 132.27 78.05 130.32 L66.23 123.50 L66.23 109.85 C66.23 105.95 69.06 109.93 70.95 110.24 C78.38 121.16 78.38 100.88 70.95 103.22 C69.06 101.35 66.23 102.05 66.23 98.15 L66.23 84.50 Z" fill="#C66D14" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
 <path d="M32.45 104.00 L44.27 110.83 C47.65 112.78 45.62 114.88 46.30 117.46 C40.56 122.72 58.12 132.86 52.38 120.97 C53.05 119.17 51.03 114.72 54.40 116.67 L66.23 123.50 L66.23 137.15 C66.23 141.05 63.39 137.07 61.50 136.76 C54.07 125.84 54.07 146.12 61.50 143.78 C63.39 145.65 66.23 144.95 66.23 148.85 L66.23 162.50 L32.45 143.00 L32.45 104.00 Z" fill="#008CC6" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
@@ -14,4 +18,6 @@
 <path d="M133.77 45.50 L167.55 65.00 L133.77 84.50 L121.95 77.67 C118.58 75.72 123.44 75.26 124.66 73.77 C137.83 72.80 120.26 62.66 118.58 70.26 C116.01 70.97 115.20 73.77 111.82 71.82 L100.00 65.00 L111.82 58.17 C115.20 56.23 116.01 59.03 118.58 59.73 C120.26 67.34 137.83 57.20 124.66 56.22 C123.44 54.74 118.58 54.27 121.95 52.32 L133.77 45.50 Z" fill="#FFD60A" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
 <path d="M66.23 45.50 L78.05 52.32 C81.42 54.27 76.56 54.74 75.34 56.22 C62.17 57.20 79.74 67.34 81.42 59.73 C83.99 59.03 84.80 56.22 88.18 58.17 L100.00 65.00 L88.18 71.82 C84.80 73.77 83.99 70.97 81.42 70.26 C79.74 62.66 62.17 72.80 75.34 73.77 C76.56 75.26 81.42 75.72 78.05 77.67 L66.23 84.50 L32.45 65.00 L66.23 45.50 Z" fill="#00B4FF" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
 <path d="M100.00 65.00 L111.82 71.82 C115.20 73.77 116.01 70.97 118.58 70.26 C120.26 62.66 137.83 72.80 124.66 73.77 C123.44 75.26 118.58 75.72 121.95 77.67 L133.77 84.50 L100.00 104.00 L66.23 84.50 L78.05 77.67 C81.42 75.72 76.56 75.26 75.34 73.77 C62.17 72.80 79.74 62.66 81.42 70.26 C83.99 70.97 84.80 73.77 88.18 71.82 L100.00 65.00 Z" fill="#3DDC84" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
+</g>
+<circle cx="74" cy="76" r="7" fill="#fff" opacity="0.9"/>
 </g></svg>
