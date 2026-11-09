@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/roteador.dart';
 import '../../data/providers.dart';
+import '../../widgets/botao_menu.dart';
 import '../../widgets/comuns.dart';
 
 class ContratosPage extends ConsumerWidget {
@@ -17,6 +18,7 @@ class ContratosPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const BotaoMenu(),
         title: const Text('Contratos'),
         actions: [
           IconButton(

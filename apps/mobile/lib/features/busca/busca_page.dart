@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/roteador.dart';
 import '../../data/providers.dart';
+import '../../widgets/botao_menu.dart';
 import '../../widgets/comuns.dart';
 
 /// Busca unificada: um campo, várias fontes.
@@ -30,7 +31,7 @@ class _BuscaPageState extends ConsumerState<BuscaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Buscar')),
+      appBar: AppBar(leading: const BotaoMenu(), title: const Text('Buscar')),
       body: Column(
         children: [
           Padding(

@@ -13,14 +13,17 @@ class MenuLateral extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    // Captura o roteador ANTES de fechar o drawer: depois do pop, o `context`
+    // do drawer está desativado e `context.go/push` falha silenciosamente.
+    final roteador = GoRouter.of(context);
     void ir(String rota) {
       Navigator.pop(context);
-      context.go(rota);
+      roteador.go(rota);
     }
 
     void empurrar(String rota) {
       Navigator.pop(context);
-      context.push(rota);
+      roteador.push(rota);
     }
 
     return Drawer(

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/roteador.dart';
 import '../../data/providers.dart';
+import '../../widgets/botao_menu.dart';
 import '../../widgets/comuns.dart';
 
 /// Emendas parlamentares: recursos que deputados/senadores destinam ao
@@ -23,7 +24,7 @@ class _EmendasPageState extends ConsumerState<EmendasPage> {
   Widget build(BuildContext context) {
     final todas = ref.watch(todasEmendasProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Emendas parlamentares')),
+      appBar: AppBar(leading: const BotaoMenu(), title: const Text('Emendas parlamentares')),
       body: Column(
         children: [
           Padding(

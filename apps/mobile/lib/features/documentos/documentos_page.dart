@@ -3,6 +3,7 @@ import 'package:fontes/fontes.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/roteador.dart';
+import '../../widgets/botao_menu.dart';
 import '../../widgets/comuns.dart';
 
 /// Documentos históricos (Transparência até 2022): catálogo de pastas do
@@ -17,7 +18,7 @@ class DocumentosPage extends StatelessWidget {
       categorias.putIfAbsent(p.categoria, () => []).add(p);
     }
     return Scaffold(
-      appBar: AppBar(title: const Text('Documentos')),
+      appBar: AppBar(leading: const BotaoMenu(), title: const Text('Documentos')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 16),
         children: [

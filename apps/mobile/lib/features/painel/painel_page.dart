@@ -8,6 +8,7 @@ import '../../app/roteador.dart';
 import '../../app/tema.dart';
 import '../../data/painel.dart';
 import '../../data/providers.dart';
+import '../../widgets/botao_menu.dart';
 import '../../widgets/comuns.dart';
 import '../../widgets/vidro.dart';
 import '../glossario/glossario_page.dart' show abrirTermo;
@@ -26,13 +27,7 @@ class PainelPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: Builder(
-          builder: (c) => IconButton(
-            icon: const Icon(Icons.menu_rounded),
-            tooltip: 'Menu',
-            onPressed: () => Scaffold.of(c).openDrawer(),
-          ),
-        ),
+        leading: const BotaoMenu(),
         titleSpacing: 0,
         title: Row(
           children: [
@@ -292,7 +287,7 @@ class _Kpi extends StatelessWidget {
               child: Icon(icone, size: 14, color: cor),
             ),
             const SizedBox(width: 6),
-            Text(rotulo, style: tt.labelLarge),
+            Flexible(child: Text(rotulo, style: tt.labelLarge, maxLines: 1, overflow: TextOverflow.ellipsis)),
           ]),
           const SizedBox(height: 6),
           NumeroAnimado(
@@ -372,7 +367,7 @@ class _Etiqueta extends StatelessWidget {
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Icon(icone, size: 14),
           const SizedBox(width: 6),
-          Text(texto, style: Theme.of(context).textTheme.labelMedium),
+          Flexible(child: Text(texto, style: Theme.of(context).textTheme.labelMedium, softWrap: true)),
           if (termo != null) ...[
             const SizedBox(width: 4),
             Icon(Icons.info_outline, size: 12, color: Theme.of(context).colorScheme.outline),
