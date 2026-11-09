@@ -101,6 +101,16 @@ final rotaInicialProvider = Provider<String>((_) => _rotaInicial);
 final roteadorProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: ref.watch(rotaInicialProvider),
+    // Deep links `transparenciasjbv://obras/slug` chegam com esquema e host;
+    // convertemos para o caminho interno `/obras/slug`.
+    redirect: (_, state) {
+      final u = state.uri;
+      if (u.scheme == 'transparenciasjbv') {
+        final caminho = '/${u.host}${u.path}'.replaceAll(RegExp(r'/+'), '/');
+        return u.hasQuery ? '$caminho?${u.query}' : caminho;
+      }
+      return null;
+    },
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => Casca(shell: shell),

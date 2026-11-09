@@ -10,7 +10,21 @@ O cidadão que quer saber "quanto a prefeitura gastou com X" precisa descobrir e
 
 ## Status
 
-**Fase 1 — MVP em andamento.** Painel "para onde vai o dinheiro" com dados oficiais do **TCE-SP** e do **SICONFI** (2014 → hoje): receita × despesa, de onde vem (IPTU, FPM, ICMS…), para onde vai (saúde, educação…), quem mais recebe, por morador. Contratos, emendas e documentos históricos do site da Prefeitura. Glossário em linguagem cidadã e tela "Cobrar" com pedido LAI pronto. Visual em vidro, Android + iOS. Veja o [roadmap](docs/04-roadmap.md).
+**Fase 2 — cobertura completa em andamento.** Tudo o que o app mostra vem de API oficial ao vivo ou de JSON regenerado **todo dia** pelo GitHub Actions a partir do site da Prefeitura, do TCE-SP, do SICONFI e do SAPL da Câmara — sem manutenção manual. Visual em vidro, Android + iOS, 23 telas cobertas por testes de fumaça.
+
+| Seção | O que responde | Fonte |
+|---|---|---|
+| Painel | quanto entrou/saiu, de onde vem, para onde vai, quem recebe, por morador, 13 anos em um olhar | TCE-SP + SICONFI |
+| Comparar | anos lado a lado; mandatos com placar por indicador (maior/menor, sem juízo) | TCE-SP + SICONFI |
+| Limites da lei | gasto com pessoal (LRF) 2015→hoje; mínimos de saúde/educação (quando publicados) | SICONFI RGF/RREO |
+| O que mudou · Vizinhos | receitas novas/sumidas, fornecedores novos; 6 cidades por habitante | TCE-SP |
+| Obras | 35 obras no mapa, empresa, % pago, prazo, fotos | site `/obras` |
+| Câmara | 19 vereadores com foto e partido; propostas, votos nominais, presença, emendas impositivas; sessões (vídeo, ata); leis | SAPL (API) |
+| Salários | subsídios de prefeito, vice, vereadores e diretores com a lei; quadro de pessoal; folha; gastos da Câmara | SAPL + eCrie (PDF) + TCE-SP |
+| Contratos · Emendas · Chamamentos | ~7.400 contratos com PDF; 103 emendas; 50 inexigibilidades explicadas | site |
+| Cidade | interdições, trânsito, coleta, eventos, 85 reuniões de conselhos; 150 notícias; 27 unidades de saúde, 36 escolas, 22 departamentos, 25 conselhos | site + RSS |
+| Documentos | 27 pastas de PDFs oficiais (balancetes, folha, concursos, Jornal Oficial…) | eCrie |
+| Cobrar · Glossário · Mapa do site | pedido LAI pronto, ouvidoria, vereadores, conselhos; 35 termos; 187 seções do site | — | Veja o [roadmap](docs/04-roadmap.md).
 
 <p align="center">
   <img src="docs/screenshots/android-painel-1.png" width="200" alt="Painel: entrou × saiu">

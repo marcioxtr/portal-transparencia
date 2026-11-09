@@ -23,16 +23,20 @@
 - [ ] Publicar beta fechado (Play Internal Testing / TestFlight)
 
 ## Fase 2 — Cobertura completa
-- [ ] Comparar anos/gestões lado a lado no painel (dados já existem em `dados/*.json`)
-- [ ] Nomes de prefeitos e vereadores por mandato via TSE dados abertos (fato público, sem adjetivos)
-- [ ] Câmara Municipal via SAPL (vereadores, projetos, votações, gastos do legislativo)
+- [x] Comparar anos/gestões lado a lado + placar por indicador dos mandatos
+- [ ] Nomes/fotos de prefeitos por mandato — API do TSE recusa acesso automatizado (403); alternativa: CSV de dados abertos do TSE (consulta_cand) no coletor
+- [x] Câmara Municipal via SAPL (vereadores com foto/partido, propostas, votos nominais, presença, emendas impositivas, sessões, leis)
 - [ ] Receitas / Despesas / Servidores / Licitações detalhados (SmarAPD) quando a API voltar
-- [ ] Indicadores LRF: % pessoal, mínimos de saúde (15%) e educação (25%) — SICONFI RGF/RREO
-- [ ] Tela "O que mudou": novas taxas/receitas que não existiam no ano anterior (ex.: taxa de lixo)
+- [x] Indicadores LRF (% pessoal 2015→hoje); mínimos de saúde/educação não publicados no SICONFI para municípios SP (AUDESP) — tela explica
+- [x] Tela "O que mudou"
 - [ ] Órgãos (organograma) e e-SIC (estatísticas)
 - [ ] `fontes/tce_sp` para 2023–2025
 - [ ] Smoke test diário contra produção + issue automática
 - [ ] Fonte Intertec se/quando voltar
+
+- [x] Obras no mapa · Avisos da cidade · Notícias · Serviços · Conselhos · Chamamentos · Salários e pessoal · Mapa do site · Vizinhos
+- [ ] Extração dos PDFs: Carta de Serviços navegável, Ouvidoria em números, Programa de Metas "prometido × entregue", multas aplicadas
+- [ ] Câmara: portal SmarAPD próprio (despesas por gabinete) migrado em 2026-05 — mapear
 
 ## Fase 3 — Cidadania ativa
 - [ ] "Explique isso" — glossário contextual (SmarAPD `glossario`) e textos didáticos
